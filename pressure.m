@@ -1,5 +1,4 @@
-%%TA¦MA
-% S-1
+%% S-1
  
 clear all;
 close all;

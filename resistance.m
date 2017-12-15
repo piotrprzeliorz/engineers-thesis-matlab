@@ -29,6 +29,8 @@ sumOfReistance = resistance1 + resistance2
 x = timestamps
 y = sumOfReistance
 
+%% Find peaks
+
 Y=y;
 [Y,X] = findpeaks(Y);
 [m I]=max(y(1:numberOfMeasurementsInCycle));
@@ -39,6 +41,8 @@ for i=2:length(X)
         U=[U X(i)];
     end
 end
+
+%% Find mins
  
 Y=-y;
 [Y,X] = findpeaks(Y);
@@ -50,6 +54,8 @@ for i=2:length(X)
         D=[D X(i)];
     end
 end
+
+%% Cauclate resistances
  
 resistanceOfMovement=[];
 for i=1:length(U)
@@ -57,7 +63,6 @@ for i=1:length(U)
     d=mean(y((D(i)+3):(D(i)+18)));
     resistanceOfMovement=[resistanceOfMovement (u-d)/2];
 end
-
 
 average = mean(resistanceOfMovement)
 disp(average')

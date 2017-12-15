@@ -22,12 +22,14 @@ timestamps(isnan(timestamps)) = [];
 %% Sum of resistance
 
 sumOfReistance = resistance1 + resistance2
+
+%% Assign timestamps and reistnaces to x,y
  
 x = timestamps
 y = sumOfReistance
 
 Y=y;
-Y(y<43)=0;
+% Y(y<43)=0;
 [Y,X] = findpeaks(Y);
 [m I]=max(y(1:83));
 X=X(X>=I);

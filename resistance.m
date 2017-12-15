@@ -1,4 +1,4 @@
-%% S-1
+%% The purpose of the script is to calculate the rolling resistance
  
 clear all;
 close all;
@@ -55,21 +55,17 @@ resistanceOfMovement=[];
 for i=1:length(U)
     u=mean(y((U(i)+3):(U(i)+18)));
     d=mean(y((D(i)+3):(D(i)+18)));
-    resistanceOfMovement = [resistanceOfMovement (u-d)/2];
+    resistanceOfMovement=[resistanceOfMovement (u-d)/2];
 end
 
 
-average = mean(resistanceOfMovement')
-disp(average)
+average = mean(resistanceOfMovement)
+disp(average')
 
 
-%plot(x,y);
+plot(x,y);
 
-ordinalNumbers = [1:1:length(y)]
-
-plot(ordinalNumbers, y);
-
-xlabel('Time'), ylabel('Force')
+xlabel('Time'), ylabel('Reistnace')
 title('Chart')
 
  

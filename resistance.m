@@ -1,13 +1,17 @@
 %% The purpose of the script is to calculate the rolling resistance
+
+%Enter file name and number of cycles 
+data = xlsread('st2500_S2_2x156f03v200_001.xls');
+numberOfMeasurementsInCycle = 80
+
+
+%% The purpose of the script is to calculate the rolling resistance
  
 clear all;
 close all;
 clc;
 
 %% Extract data from source
-
-data = xlsread('st2500_S2_2x156f03v200_001.xls');
-numberOfMeasurementsInCycle = 80
 
 resistance1 =  data(:,6);
 resistance2 = data(:,7);

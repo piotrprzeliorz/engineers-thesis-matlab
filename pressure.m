@@ -51,19 +51,24 @@ for i=2:length(X)
     end
 end
  
-w=[];
+resistanceOfMovement=[];
 for i=1:length(U)
     u=mean(y((U(i)+3):(U(i)+18)));
     d=mean(y((D(i)+3):(D(i)+18)));
-    w=[w (u-d)/2];
+    resistanceOfMovement = [resistanceOfMovement (u-d)/2];
 end
 
 
-average = mean(w)
+average = mean(resistanceOfMovement')
 disp(average)
 
 
-plot(x,y);
+%plot(x,y);
+
+ordinalNumbers = [1:1:length(y)]
+
+plot(ordinalNumbers, y);
+
 xlabel('Time'), ylabel('Force')
 title('Chart')
 

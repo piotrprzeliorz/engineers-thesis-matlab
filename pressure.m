@@ -7,6 +7,7 @@ clc;
 %% Extract data from source
 
 data = xlsread('st2500_S2_2x156f03v200_001.xls');
+numberOfMeasurementsInCycle = 80
 
 resistance1 =  data(:,6);
 resistance2 = data(:,7);
@@ -29,30 +30,23 @@ x = timestamps
 y = sumOfReistance
 
 Y=y;
-% Y(y<43)=0;
 [Y,X] = findpeaks(Y);
-[m I]=max(y(1:83));
+[m I]=max(y(1:numberOfMeasurementsInCycle));
 X=X(X>=I);
 U=I;
 for i=2:length(X)
-  
-    if X(i)-U(end)>80
-%           disp(X(i))
-    disp(U(end))
-%         disp(X(1))
+    if X(i)-U(end)>numberOfMeasurementsInCycle
         U=[U X(i)];
     end
 end
  
 Y=-y;
-Y(y<-25)=0;
 [Y,X] = findpeaks(Y);
-[m I]=min(y(1:83));
+[m I]=min(y(1:numberOfMeasurementsInCycle));
 X=X(X>=I);
 D=I;
 for i=2:length(X)
-    if X(i)-D(end)>80
-%          disp(X(i))
+    if X(i)-D(end)>numberOfMeasurementsInCycle
         D=[D X(i)];
     end
 end
@@ -60,16 +54,18 @@ end
 w=[];
 for i=1:length(U)
     u=mean(y((U(i)+3):(U(i)+18)));
-%     disp(u)
     d=mean(y((D(i)+3):(D(i)+18)));
-%     disp(d)
     w=[w (u-d)/2];
 end
+
+
+average = mean(w)
+disp(average)
+
 
 plot(x,y);
 xlabel('Time'), ylabel('Force')
 title('Chart')
 
-disp(w')
  
 

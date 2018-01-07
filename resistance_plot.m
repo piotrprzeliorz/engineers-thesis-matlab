@@ -15,4 +15,4 @@ x = resistanceOfMovement
 clc;
 close all;
 
-disp(x')
+%%disp(x')

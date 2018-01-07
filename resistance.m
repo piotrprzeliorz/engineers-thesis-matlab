@@ -1,21 +1,22 @@
-%% The purpose of the script is to calculate the rolling resistance
 
-%Enter file name and number of cycles 
-data = xlsread('st2500_S2_2x156f03v200_001.xls');
-numberOfMeasurementsInCycle = 80
-
-
-%% The purpose of the script is to calculate the rolling resistance
+% The purpose of the script is to calculate the rolling resistance
  
 clear all;
 close all;
 clc;
 
+
+%% Enter file name and number of cycles 
+data = xlsread('st2500_E1_2x152f03v200t30');
+numberOfMeasurementsInCycle = 80
+
+
+
 %% Extract data from source
 
 resistance1 =  data(:,6);
 resistance2 = data(:,7);
-timestamps = data(:,10);
+timestamps = data(:,1);
 
 
 %% Remove nan values from numeric vector and timestamps
@@ -33,11 +34,15 @@ sumOfReistance = resistance1 + resistance2
 x = timestamps
 y = sumOfReistance
 
+
+plot(x,y);
+
 %% Find peaks
 
 Y=y;
+Y(y<30)=0;
 [Y,X] = findpeaks(Y);
-[m I]=max(y(1:numberOfMeasurementsInCycle));
+[m I]=max(y(1:100));
 X=X(X>=I);
 U=I;
 for i=2:length(X)
@@ -46,11 +51,18 @@ for i=2:length(X)
     end
 end
 
+
+numerOfPeaks = length(U);   
+messagePekas = sprintf('%d - number of peaks.',numerOfPeaks);
+disp(messagePekas);
+
+
 %% Find mins
  
 Y=-y;
+Y(y<-12)=0;
 [Y,X] = findpeaks(Y);
-[m I]=min(y(1:numberOfMeasurementsInCycle));
+[m I]=min(y(1:100));
 X=X(X>=I);
 D=I;
 for i=2:length(X)
@@ -59,20 +71,25 @@ for i=2:length(X)
     end
 end
 
+numerOfMins = length(D);   
+messageMins = sprintf('%d - number of mins.',numerOfMins);
+disp(messageMins);
+
 %% Cauclate resistances
  
 resistanceOfMovement=[];
 for i=1:length(U)
     u=mean(y((U(i)+3):(U(i)+18)));
     d=mean(y((D(i)+3):(D(i)+18)));
-    resistanceOfMovement=[resistanceOfMovement (u-d)/2];
+    resistanceOfMovement= [resistanceOfMovement (u-d)/2];
 end
 
 average = mean(resistanceOfMovement)
-disp(average')
+disp(resistanceOfMovement')
 
 
-plot(x,y);
+   
+
 
 xlabel('Time'), ylabel('Reistnace')
 title('Chart')

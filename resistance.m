@@ -7,7 +7,7 @@ clc;
 
 
 %% Enter file name and number of cycles 
-data = xlsread('st2500_E1_2x152f03v200t30');
+data = xlsread('s');
 numberOfMeasurementsInCycle = 80
 
 
@@ -38,38 +38,65 @@ y = sumOfReistance
 plot(x,y);
 
 %% Find peaks
-
-Y=y;
-Y(y<30)=0;
-[Y,X] = findpeaks(Y);
-[m I]=max(y(1:100));
-X=X(X>=I);
-U=I;
-for i=2:length(X)
-    if X(i)-U(end)>numberOfMeasurementsInCycle
-        U=[U X(i)];
+j=0;
+val=max(y);
+while j~=100
+    Y=y;
+    val=val*0.999;
+    Y(y<val)=0;
+    [Y,X] = findpeaks(Y);
+    [m I]=max(y(1:85));
+    X=X(X>=I);
+    U=I;
+    for i=2:length(X)
+        if X(i)-U(end)>numberOfMeasurementsInCycle
+            U=[U X(i)];
+        end
     end
+    j=length(U);
 end
 
-
+plot(y)
+hold on
+plot(U,y(U),'ro')
 numerOfPeaks = length(U);   
 messagePekas = sprintf('%d - number of peaks.',numerOfPeaks);
 disp(messagePekas);
 
 
 %% Find mins
- 
-Y=-y;
-Y(y<-12)=0;
-[Y,X] = findpeaks(Y);
-[m I]=min(y(1:100));
-X=X(X>=I);
-D=I;
-for i=2:length(X)
-    if X(i)-D(end)>numberOfMeasurementsInCycle
-        D=[D X(i)];
+j=0;
+val=min(y);
+while j~=100
+    Y=y;
+    val=val*1.001;
+    Y(y>val)=0;
+    [YY,X] = findpeaks(Y);
+    [m I]=min(y(1:85));
+    X=X(X>=I);
+    D=I;
+    for i=2:length(X)
+        if X(i)-D(end)>numberOfMeasurementsInCycle
+            D=[D X(i)];
+        end
     end
+    j=length(D);
 end
+
+plot(X,y(X),'ro')
+
+
+%% FIND SECOND LOWEST
+
+%x = min(setdiff(y(1:100),min(y(1:100))));
+%for i=1:length(X)
+%    if x == y(i) 
+ %        indexOfSecondLowest = i        
+ %   end
+%end
+
+
+
 
 numerOfMins = length(D);   
 messageMins = sprintf('%d - number of mins.',numerOfMins);
@@ -84,13 +111,11 @@ for i=1:length(U)
     resistanceOfMovement= [resistanceOfMovement (u-d)/2];
 end
 
-average = mean(resistanceOfMovement)
-disp(resistanceOfMovement')
+average = mean(resistanceOfMovement);
+disp(resistanceOfMovement');
 
 
    
-
-
 xlabel('Time'), ylabel('Reistnace')
 title('Chart')
 

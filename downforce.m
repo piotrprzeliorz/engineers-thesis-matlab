@@ -11,7 +11,6 @@ data = xlsread('st2500_S2_2x156f03v200_001.xls');
 downforce1 =  data(:,4);
 downforce2 = data(:,5);
 
-
 %% Remove nan values from downforces
 
 downforce1(isnan(downforce1)) = [];

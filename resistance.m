@@ -85,19 +85,6 @@ end
 
 plot(X,y(X),'ro')
 
-
-%% FIND SECOND LOWEST
-
-%x = min(setdiff(y(1:100),min(y(1:100))));
-%for i=1:length(X)
-%    if x == y(i) 
- %        indexOfSecondLowest = i        
- %   end
-%end
-
-
-
-
 numerOfMins = length(D);   
 messageMins = sprintf('%d - number of mins.',numerOfMins);
 disp(messageMins);
